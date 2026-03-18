@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO plant (name, min_reading, max_reading) VALUES (?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "0eefd96aef66bbe293c4483b9fd4b627a266809245fffe9c8c5a9ee9358c5bdd"
+}

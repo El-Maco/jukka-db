@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 rumqttc = "0.25.1"
+sqlx = {version = "0.8.6", features = ["runtime-tokio", "sqlite", "chrono"]}
+tokio = {version = "1.50.0", features = ["rt-multi-thread", "macros"]}

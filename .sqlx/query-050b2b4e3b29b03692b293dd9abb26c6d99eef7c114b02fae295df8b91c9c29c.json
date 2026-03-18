@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO measurement (plant_id, value) VALUES (?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "050b2b4e3b29b03692b293dd9abb26c6d99eef7c114b02fae295df8b91c9c29c"
+}

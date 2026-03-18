@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS plant (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    min_reading INTEGER NOT NULL,
+    max_reading INTEGER NOT NULL
+)
