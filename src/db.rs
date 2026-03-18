@@ -1,5 +1,6 @@
 use sqlx::{Pool, Sqlite, SqlitePool, migrate::MigrateDatabase, prelude::FromRow};
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, FromRow)]
 pub struct Plant {
     pub id: u32,
@@ -8,6 +9,7 @@ pub struct Plant {
     pub max_reading: u32,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, FromRow)]
 pub struct Measurement {
     pub id: String,

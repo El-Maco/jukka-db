@@ -1,6 +1,6 @@
 mod db;
 
-use rumqttc::{AsyncClient, Client, Event, MqttOptions, Packet, QoS};
+use rumqttc::{AsyncClient, Event, MqttOptions, Packet, QoS};
 use sqlx::{Pool, Sqlite};
 use std::time::Duration;
 
