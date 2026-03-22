@@ -2,4 +2,4 @@
 DATABASE_URL = "sqlite://jukka.db"
 MQTT_CLIENT_ID = "jukka-server"
 MQTT_HOST = "192.168.1.50"
-MQTT_KEEP_ALIVE_MIN = "15"
+MQTT_KEEP_ALIVE_MIN = "120"

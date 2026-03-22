@@ -14,18 +14,26 @@ async fn get_or_insert_plant(pool: &Pool<Sqlite>, name: &str) -> Result<u32, sql
 }
 
 async fn handle_event(pool: &Pool<Sqlite>, event: &Event) {
-    // println!("Handling event: {:?}", event);
     match event {
         Event::Incoming(Packet::Publish(msg)) => {
             let topic = msg.topic.clone();
             let payload = String::from_utf8_lossy(&msg.payload);
             let plant_name = topic.split('/').nth(1).unwrap_or("unknown");
+            let sub_topic = topic.split('/').nth(2).unwrap_or("unknown");
             println!("Received message from plant '{}': {}", plant_name, payload);
-            let plant_id =  get_or_insert_plant(pool, plant_name).await.unwrap();
-            // println!("Plant ID for '{}': {}", plant_name, plant_id);
-            let measurement: u32 = payload.parse().unwrap();
-            println!("Inserting plant ID {}, name {}, measurement {}", plant_id, plant_name, measurement);
-            insert_measurement(pool, plant_id, measurement).await.unwrap();
+            match sub_topic {
+                "raw" => {
+                    let plant_id =  get_or_insert_plant(pool, plant_name).await.unwrap();
+                    // println!("Plant ID for '{}': {}", plant_name, plant_id);
+                    let measurement: u32 = payload.parse().unwrap();
+                    println!("Inserting plant ID {}, name {}, measurement {}", plant_id, plant_name, measurement);
+                    insert_measurement(pool, plant_id, measurement).await.unwrap();
+                },
+                "status" => {
+                    println!("Status update for plant '{}': {}", plant_name, payload);
+                },
+                _ => println!("Received message for plant '{}', unknown sub-topic '{}': {}", plant_name, sub_topic, payload),
+            }
         }
         _ => {
             // println!("Received non-incoming event: {:?}", event);

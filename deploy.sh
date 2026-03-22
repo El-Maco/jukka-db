@@ -20,10 +20,12 @@ cargo build --release --target i686-unknown-linux-gnu
 
 echo "Backing up existing files on $USER@$DST_HOST:$DST_DIR"
 ssh $USER@$DST_HOST "[ -d $DST_DIR/backups ] || mkdir -p \"$DST_DIR/backups\""
-ssh $USER@$DST_HOST "[ -f $DST_DIR/jukka ] && mv \"$DST_DIR/backups/jukka_$(date +%Y%m%d%H%M%S)\" || true"
+ssh $USER@$DST_HOST "[ -f $DST_DIR/jukka ] && mv $DST_DIR/jukka \"$DST_DIR/backups/jukka_$(date +%Y%m%d%H%M%S)\" || true"
 
 for FILE in "${SRC_FILES[@]}"; do
     rsync -avz "$FILE" "$DST_HOST:$DST_DIR/"
 done
+
+ssh $USER@$DST_HOST "sudo systemctl restart jukka.service"
 
 echo "Deployment to $USER@$DST_HOST:$DST_DIR completed successfully."
