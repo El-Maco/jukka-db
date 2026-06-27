@@ -90,6 +90,7 @@ case $COMMAND in
         create_backup_service
         echo "Starting Grafana with docker compose..."
         docker compose up -d
+        echo "Visit http://localhost:3000 to access Grafana."
         ;;
     "down")
         echo "Stopping Grafana with docker compose..."
