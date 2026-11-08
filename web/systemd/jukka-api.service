@@ -1,0 +1,19 @@
+[Unit]
+Description=Read-only JSON API for the Jukka moisture graph
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /jukka-api/jukka-api.py
+WorkingDirectory=/jukka-api
+User=maco
+Group=maco
+Environment=JUKKA_DB=/jukka/jukka.db
+Restart=always
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadOnlyPaths=/jukka
+
+[Install]
+WantedBy=multi-user.target

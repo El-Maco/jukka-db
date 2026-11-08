@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101114">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/favicon-180.png">
+<link rel="stylesheet" href="/assets/vendor/uPlot.min.css">
+<link rel="stylesheet" href="/assets/app.css">
+<title>maco status</title>
+</head>
+<body data-tab="status">
+<main>
+  <header>
+    <h1>minimaco</h1>
+    <nav class="tabs" id="tabs">
+      <button type="button" data-tab="status" class="active">Status</button>
+      <button type="button" data-tab="jukka">Jukka</button>
+    </nav>
+  </header>
+
+  <section id="tab-status">
+    <div class="status-wrap">
+      <p class="sub" id="checked">checking…</p>
+
+      <section class="card" data-host="server" data-name="maco-server" data-hibernate="0">
+        <div class="row"><span class="dot"></span><div><div class="name">maco-server</div><div class="state">checking…</div></div></div>
+        <div class="meta"><span class="ip">192.168.1.52</span></div>
+        <div class="actions">
+          <button type="button" data-action="wake">Wake</button>
+          <button type="button" data-action="sleep">Sleep</button>
+          <button type="button" data-action="hibernate" disabled title="maco-server doesn't support hibernate">Hibernate</button>
+          <button type="button" data-action="reboot">Reboot</button>
+          <button type="button" data-action="shutdown">Shut down</button>
+          <button type="button" data-action="gui" disabled>Open GUI</button>
+        </div>
+      </section>
+
+      <section class="card" data-host="pc" data-name="maco-pc" data-hibernate="1">
+        <div class="row"><span class="dot"></span><div><div class="name">maco-pc</div><div class="state">checking…</div></div></div>
+        <div class="meta"><span class="ip">192.168.1.132</span></div>
+        <div class="actions">
+          <button type="button" data-action="wake">Wake</button>
+          <button type="button" data-action="sleep">Sleep</button>
+          <button type="button" data-action="hibernate">Hibernate</button>
+          <button type="button" data-action="reboot">Reboot</button>
+          <button type="button" data-action="shutdown">Shut down</button>
+          <button type="button" data-action="gui" disabled>Open GUI</button>
+        </div>
+      </section>
+
+      <p class="foot">wake-on-LAN · updates every 10s<br>power actions need the target's desktop unlocked<br>close GUI ends the target's desktop session</p>
+    </div>
+  </section>
+
+  <section id="tab-jukka" hidden>
+    <div class="controls">
+      <div class="seg" id="range">
+        <button type="button" data-range="24h">24 h</button>
+        <button type="button" data-range="7d">7 d</button>
+        <button type="button" data-range="30d" class="active">30 d</button>
+        <button type="button" data-range="all">All</button>
+      </div>
+      <div class="seg" id="mode">
+        <button type="button" data-mode="raw" class="active">Raw</button>
+        <button type="button" data-mode="daily">Daily average</button>
+      </div>
+    </div>
+    <p class="sub" id="jukka-status">loading…</p>
+    <div id="chart" class="chart"></div>
+    <p class="foot">moisture % · updates every 60s while this tab is open</p>
+  </section>
+</main>
+<script src="/assets/vendor/uPlot.iife.min.js"></script>
+<script src="/assets/status.js"></script>
+<script src="/assets/jukka.js"></script>
+</body>
+</html>
