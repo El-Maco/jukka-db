@@ -23,6 +23,7 @@ echo "Checking server dependencies"
 ssh "$DST_HOST" 'command -v python3 sqlite3 rsync >/dev/null && sudo -n true' \
     || die "server missing python3/sqlite3/rsync or passwordless sudo"
 
+# Local DB is only for sqlx query! schema checks; the daemon embeds migrations and applies them to minimaco's own DB.
 echo "Ensuring local build database"
 touch "$DB_FILE"
 sqlx migrate run --database-url "sqlite://$DB_FILE"

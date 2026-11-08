@@ -30,6 +30,8 @@ pub async fn init_db(url: &str) -> Result<Pool<Sqlite>, sqlx::Error> {
     }
 
     let pool = SqlitePool::connect(url).await.unwrap();
+    // sqlx creates new files in WAL; the journal-mode migration can't run inside a transaction.
+    sqlx::query("PRAGMA journal_mode = DELETE").execute(&pool).await?;
     println!("Migrating");
     let migrator = sqlx::migrate!();
     migrator.run(&pool).await?;

@@ -50,6 +50,8 @@ async fn main() {
 
     let db_connection: Pool<Sqlite> = init_db(db_url).await.unwrap();
 
+    // PID suffix keeps a manual run from kicking the service off the broker with the same client id.
+    let mqtt_client_id = format!("{}-{}", mqtt_client_id, std::process::id());
     let mut options = MqttOptions::new(mqtt_client_id, mqtt_host, 1883);
     options.set_keep_alive(Duration::from_mins(keep_alive_min));
 
