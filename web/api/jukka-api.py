@@ -31,6 +31,7 @@ def query(mode, since):
         updated = conn.execute(
             "SELECT MAX(CAST(strftime('%s', timestamp) AS INTEGER)) FROM measurement"
         ).fetchone()[0]
+        plants = [row[0] for row in conn.execute("SELECT name FROM plant ORDER BY name")]
     finally:
         conn.close()
 
@@ -39,6 +40,7 @@ def query(mode, since):
         series.setdefault(name, []).append([int(ts), value])
     return {
         "updated": updated,
+        "plants": plants,
         "series": [{"name": name, "data": data} for name, data in sorted(series.items())],
     }
 

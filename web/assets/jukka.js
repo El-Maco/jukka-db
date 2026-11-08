@@ -1,9 +1,5 @@
-const palette = ['#3ddc84', '#4dabff', '#ffb84d', '#ff6b9d', '#b48cff', '#ff5c5c', '#35d0d0', '#e0d054', '#8bc34a', '#ff9f43'];
-function colorFor(name) {
-  let h = 0;
-  for (const c of name) h = (h * 31 + c.codePointAt(0)) >>> 0;
-  return palette[h % palette.length];
-}
+// Okabe-Ito based, with extra light/dark tones so red-green colour blindness still separates them.
+const palette = ['#56B4E9', '#E69F00', '#F0E442', '#CC79A7', '#0072B2', '#009E73', '#9B7BD4', '#F2F2F2', '#A67C00', '#D55E00'];
 
 const chartEl = document.getElementById('chart');
 const statusEl = document.getElementById('jukka-status');
@@ -23,7 +19,7 @@ function fmtX(u, splits) {
   });
 }
 
-function opts(names) {
+function opts(names, plantIndex) {
   const width = chartEl.clientWidth || 600;
   return {
     width,
@@ -31,12 +27,12 @@ function opts(names) {
     scales: { x: { time: true }, y: { range: [0, 100] } },
     series: [
       {},
-      ...names.map(name => ({
+      ...names.map((name, i) => ({
         label: name,
-        stroke: colorFor(name),
+        stroke: palette[(plantIndex.get(name) ?? i) % palette.length],
         width: 2,
         points: { show: false },
-        spanGaps: mode === 'daily',
+        spanGaps: true,
       })),
     ],
     axes: [
@@ -74,9 +70,10 @@ async function load(silent = false) {
     }
     const key = json.series.map(s => s.name).join('\n');
     const data = toColumns(json);
+    const plantIndex = new Map((json.plants || []).map((name, i) => [name, i]));
     if (!plot || key !== seriesKey) {
       if (plot) plot.destroy();
-      plot = new uPlot(opts(json.series.map(s => s.name)), data, chartEl);
+      plot = new uPlot(opts(json.series.map(s => s.name), plantIndex), data, chartEl);
       seriesKey = key;
     } else {
       plot.setData(data, false);
